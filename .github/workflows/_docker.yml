@@ -43,6 +43,9 @@ jobs:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
+    - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+      with:
+        php-version: '8.2'
     - uses: actions/checkout@v4
     - name: Replace env file
       run: mv .env.local.dist.php .env.local.php
