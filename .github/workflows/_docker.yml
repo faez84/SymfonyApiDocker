@@ -14,7 +14,7 @@ defaults:
   working-directory: ./app
 env:
   REGISTRY: faezsal
-  IMAGE_NAME: sal-shop-app
+  IMAGE_NAME: SymfonyApi
 jobs:
   InitTest:
       runs-on: ubuntu-latest
