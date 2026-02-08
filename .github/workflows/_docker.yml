@@ -79,6 +79,7 @@ jobs:
         DB_USER: root
         DB_PASSWORD: root
         DATABASE_URL: mysql://root:root@127.0.0.1:3306/api
+        DEFAULT_URI: http://localhost
       run: |
         composer install --no-dev --optimize-autoloader
         APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
