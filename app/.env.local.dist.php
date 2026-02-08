@@ -6,7 +6,7 @@ return array (
   'APP_ENV' => 'prod',
   'SYMFONY_DOTENV_PATH' => './.env',
   'APP_SECRET' => '%env(resolve:APP_SECRET)%',
-  'DATABASE_URL' => 'mysql://%env(resolve:DATABASE_USER)%:%env(resolve:DATABASE_PASS)%@%env(resolve:DATABASE_HOST)%:%env(resolve:DATABASE_PORT)%/%env(resolve:DATABASE_DB)%',
+  'DATABASE_URL' => 'mysql://%env(resolve:DATABASE_USER)%:%env(resolve:DATABASE_PASSWORD)%@%env(resolve:DATABASE_HOST)%:%env(resolve:DATABASE_PORT)%/%env(resolve:DATABASE_DB)%',
   'CORS_ALLOW_ORIGIN' => '^https?://(localhost|127\\.0\\.0\\.1)(:[0-9]+)?$',
   'JWT_SECRET_KEY' => '%kernel.project_dir%/config/jwt/private.pem',
   'JWT_PUBLIC_KEY' => '%kernel.project_dir%/config/jwt/public.pem',
