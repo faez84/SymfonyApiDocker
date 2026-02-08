@@ -1555,7 +1555,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     doctrine_performance_guard?: DoctrinePerformanceGuardConfig,
  *     lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
  *     monolog?: MonologConfig,
- *     twig?: TwigConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1582,7 +1581,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine_performance_guard?: DoctrinePerformanceGuardConfig,
  *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
  *         monolog?: MonologConfig,
- *         twig?: TwigConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,

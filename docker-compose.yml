@@ -18,6 +18,7 @@ services:
     build:
       context: .
       dockerfile: ./container/symfony/Dockerfile
+      target: runtime
     volumes:
       - ./app:/app
     environment:
