@@ -11,9 +11,7 @@ COPY app/composer.json app/composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress --no-scripts
 
 COPY app/ ./
-ARG DATABASE_URL=sqlite:///%kernel.project_dir%/var/cache.db
-ENV APP_ENV=prod APP_DEBUG=0 DEFAULT_URI=http://localhost DATABASE_URL=$DATABASE_URL
-RUN printf "APP_ENV=%s\nAPP_DEBUG=%s\nDEFAULT_URI=%s\nDATABASE_URL=%s\n" "$APP_ENV" "$APP_DEBUG" "$DEFAULT_URI" "$DATABASE_URL" > .env
+ARG DATABASE_URL="mysql://root:root@127.0.0.1:3306/api"
 RUN composer run-script post-install-cmd --no-interaction
 RUN --mount=type=secret,id=symfony_decrypt_key,required=false \
     export SYMFONY_DECRYPTION_SECRET="$(cat /run/secrets/symfony_decrypt_key 2>/dev/null || true)" && \

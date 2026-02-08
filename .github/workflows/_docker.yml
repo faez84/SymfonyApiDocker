@@ -43,6 +43,8 @@ jobs:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
+    - name: Replace env file
+      run: mv .env.local.dist.php .env.local.php 
     - uses: actions/checkout@v4
 
     - name: login to docker registry
