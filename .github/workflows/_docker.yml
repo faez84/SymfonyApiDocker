@@ -47,8 +47,14 @@ jobs:
       with:
         php-version: '8.2'
     - uses: actions/checkout@v4
-    - name: Replace env file
-      run: mv .env.local.dist.php .env.local.php
+    - name: Build .env for Docker build
+      run: |
+        @"
+        APP_ENV=prod
+        APP_DEBUG=0
+        DEFAULT_URI=${{ env.DEFAULT_URI }}
+        DATABASE_URL=${{ secrets.DATABASE_URL }}
+        "@ | Set-Content -Path .env -NoNewline
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -74,7 +80,6 @@ jobs:
         DEFAULT_URI: http://localhost
       run: |
         composer install --no-dev --optimize-autoloader
-        APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
   
     - name: generate jwt pair keys
       run: php bin/console lexik:jwt:generate-keypair
