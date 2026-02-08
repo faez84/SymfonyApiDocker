@@ -7,8 +7,6 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY app/ ./
-
 
 FROM php:8.2.1-fpm AS runtime
 RUN apt-get update && \
