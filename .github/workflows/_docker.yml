@@ -18,6 +18,15 @@ env:
 jobs:
   docker-push:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: api
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
     env:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -31,8 +40,23 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
     - uses: actions/checkout@v4
-    - name: Replace env file
-      run: mv .env.local.dist.php .env.local.php
+    - name: Wait for MySQL
+      run: |
+        for i in {1..30}; do
+          if nc -z 127.0.0.1 3306; then
+            echo "MySQL is up";
+            break;
+          fi
+          sleep 2
+        done
+    - name: Build .env for Docker build (MySQL)
+      run: |
+        @"
+        APP_ENV=prod
+        APP_DEBUG=0
+        DEFAULT_URI=${{ env.DEFAULT_URI }}
+        DATABASE_URL=mysql://root:root@127.0.0.1:3306/api
+        "@ | Set-Content -Path .env -NoNewline
 
     - name: login to docker registry
       uses: docker/login-action@v3
@@ -63,6 +87,7 @@ jobs:
         file: ./container/symfony/Dockerfile
         push: false
         load: false
+        network: host
         cache-from: type=gha
         cache-to: type=gha,mode=max
         tags: ${{ steps.meta.outputs.tags }}
@@ -73,6 +98,7 @@ jobs:
         context: .
         file: ./container/symfony/Dockerfile
         push: true
+        network: host
         cache-from: type=gha
         cache-to: type=gha,mode=max
         tags: ${{ steps.meta.outputs.tags }}
