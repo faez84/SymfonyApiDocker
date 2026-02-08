@@ -7,6 +7,19 @@ name: _docker
 
 on:
   workflow_call:
+    secrets:
+      DB_USER:
+        required: true
+      DB_PASSWORD:
+        required: true
+      DATABASE_URL:
+        required: true
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+      SYMFONY_PROD_DECRYPT_KEY_B64:
+        required: false
 permissions:
   contents: read
 defaults:
