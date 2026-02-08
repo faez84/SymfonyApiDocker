@@ -8,10 +8,11 @@ RUN apt-get update && \
 WORKDIR /app
 
 COPY app/composer.json app/composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress --no-scripts
 
 COPY app/ ./
 ENV APP_ENV=prod APP_DEBUG=0 DEFAULT_URI=http://localhost
+RUN composer run-script post-install-cmd --no-interaction
 RUN --mount=type=secret,id=symfony_decrypt_key,required=false \
     export SYMFONY_DECRYPTION_SECRET="$(cat /run/secrets/symfony_decrypt_key 2>/dev/null || true)" && \
     php bin/console cache:clear
