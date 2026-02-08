@@ -1,0 +1,26 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/config/secrets/dev/dev.decrypt.private.php
+/config/secrets/test/test.decrypt.private.php
+/public/bundles/
+/public/uploads/users/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+/phpqa/vendor/
+# Added by ggshield
+.cache_ggshield
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+.php-cs-fixer.cache

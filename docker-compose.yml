@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./container/nginx/Dockerfile
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:80"
+      - "444:443"
+    depends_on:
+      - app
+    networks:
+      - symfony_api
+  app:
+    build:
+      context: .
+      dockerfile: ./container/symfony/Dockerfile
+    volumes:
+      - ./app:/app
+    environment:
+      DATABASE_URL: mysql://root:root@db/shopnewnew
+    #command:  y|composer install --working-dir=/var/www/app
+    networks:
+      - symfony_api
+  db:
+    image: mysql:8
+    command:
+      --mysql-native-password=ON
+    environment:
+      MYSQL_DATABASE: shopnewnew
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3345:3306"
+    volumes:
+      - ./data/mysql_api/:/var/lib/mysql:cached
+    networks:
+      - symfony_api
+
+networks:
+  symfony_api:
