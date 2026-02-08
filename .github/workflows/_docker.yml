@@ -62,9 +62,11 @@ jobs:
       uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    - name: Set Symfony decrypt secret (env only)
+    - name: Write prod decrypt key
       run: |
-        echo "SYMFONY_DECRYPTION_SECRET=$(echo '${{ secrets.SYMFONY_PROD_DECRYPT_KEY_B64 }}' | base64 -d)" >> $GITHUB_ENV
+        mkdir -p app/config/secrets/prod
+        echo "${{ secrets.SYMFONY_PROD_DECRYPT_KEY_B64 }}" | base64 -d > app/config/secrets/prod/prod.decrypt.private.php
+        chmod 600 app/config/secrets/prod/prod.decrypt.private.php
     - name: Build (no push)
       uses: docker/build-push-action@v6
       with:
@@ -72,8 +74,6 @@ jobs:
         file: ./container/symfony/Dockerfile
         push: false
         load: false
-        secrets: |
-          symfony_decrypt_key=${{ env.SYMFONY_DECRYPTION_SECRET }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         tags: ${{ steps.meta.outputs.tags }}
@@ -84,9 +84,10 @@ jobs:
         context: .
         file: ./container/symfony/Dockerfile
         push: true
-        secrets: |
-          symfony_decrypt_key=${{ env.SYMFONY_DECRYPTION_SECRET }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+    - name: Remove prod decrypt key
+      if: always()
+      run: rm -f app/config/secrets/prod/prod.decrypt.private.php
