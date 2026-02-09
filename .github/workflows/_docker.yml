@@ -63,6 +63,8 @@ jobs:
         DEFAULT_URI=${{ env.DEFAULT_URI }}
         DATABASE_URL=mysql://root:root@127.0.0.1:3306/api
         JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+        JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+        JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
         EOF
     - name: Install Dependencies (runner)
       run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress
