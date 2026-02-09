@@ -50,13 +50,14 @@ jobs:
           sleep 2
         done
     - name: Build .env for runner (MySQL)
+      shell: bash
       run: |
-        @"
+        cat > .env <<'EOF'
         APP_ENV=prod
         APP_DEBUG=0
         DEFAULT_URI=${{ env.DEFAULT_URI }}
         DATABASE_URL=mysql://root:root@127.0.0.1:3306/api
-        "@ | Set-Content -Path .env -NoNewline
+        EOF
     - name: Install Dependencies (runner)
       run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress
     - name: Cache clear (runner)
