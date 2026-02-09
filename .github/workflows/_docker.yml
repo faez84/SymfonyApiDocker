@@ -67,6 +67,8 @@ jobs:
       run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress
     - name: Cache clear (runner)
       run: php bin/console cache:clear
+    - name: Generate JWT keypair
+      run: php bin/console lexik:jwt:generate-keypair
     - name: Switch to .env.local.php
       run: |
         rm -f .env
