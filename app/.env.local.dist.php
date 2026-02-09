@@ -11,4 +11,5 @@ return array (
   'JWT_SECRET_KEY' => '%kernel.project_dir%/config/jwt/private.pem',
   'JWT_PUBLIC_KEY' => '%kernel.project_dir%/config/jwt/public.pem',
   'JWT_PASSPHRASE' => '%env(resolve:SECRET_JWT_PASSPHRASE)%',
+  'DEFAULT_URI' => 'http://localhost'
 );
