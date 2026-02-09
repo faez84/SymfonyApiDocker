@@ -49,7 +49,7 @@ jobs:
           fi
           sleep 2
         done
-    - name: Build .env for Docker build (MySQL)
+    - name: Build .env for runner (MySQL)
       run: |
         @"
         APP_ENV=prod
@@ -57,6 +57,10 @@ jobs:
         DEFAULT_URI=${{ env.DEFAULT_URI }}
         DATABASE_URL=mysql://root:root@127.0.0.1:3306/api
         "@ | Set-Content -Path .env -NoNewline
+    - name: Install Dependencies (runner)
+      run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress
+    - name: Cache clear (runner)
+      run: php bin/console cache:clear
 
     - name: login to docker registry
       uses: docker/login-action@v3
