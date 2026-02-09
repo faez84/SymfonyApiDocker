@@ -39,6 +39,11 @@ jobs:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
+    - name: Setup PHP
+      uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+      with:
+        php-version: '8.2'
+        extensions: redis
     - uses: actions/checkout@v4
     - name: Wait for MySQL
       run: |
