@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-symfony-api-db
+  labels:
+    app: demo-symfony-api-db
+spec:
+  ports:
+    - targetPort: 3306
+      port: 3306
+
+  selector:
+    app: symfony-api-db
+  type: ClusterIP

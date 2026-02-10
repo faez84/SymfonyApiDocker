@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-symfony-api
+  labels:
+    app: symfony-api
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+  selector:
+    app: symfony-api
+    type: fe-end

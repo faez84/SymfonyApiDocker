@@ -4,6 +4,7 @@
 
 return array (
   'APP_ENV' => 'prod',
+  'APP_DEBUG' => 1,
   'SYMFONY_DOTENV_PATH' => './.env',
   'APP_SECRET' => '%env(resolve:APP_SECRET)%',
   'DATABASE_URL' => 'mysql://%env(resolve:DATABASE_USER)%:%env(resolve:DATABASE_PASSWORD)%@%env(resolve:DATABASE_HOST)%:%env(resolve:DATABASE_PORT)%/%env(resolve:DATABASE_DB)%',

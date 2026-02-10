@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: symfony-api-migrate
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: symfony-api-migrate
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrate
+          image: faezsal/symfonyapi:v.1.0.35
+          envFrom:
+            - secretRef:
+                name: symfony-api-secrets
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for DB..."
+              until php -r '$h=getenv("DATABASE_HOST"); $p=getenv("DATABASE_PORT") ?: 3306; $s=@fsockopen($h,$p,$e,$m,2); if($s){fclose($s); exit(0);} exit(1);'; do
+                sleep 2
+              done
+              cd /app
+              php bin/console doctrine:migrations:migrate --no-interaction
